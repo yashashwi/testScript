@@ -28,7 +28,7 @@ rm -rf /applianceCode
 mkdir -m 0755 /applianceCode && git clone https://doseiq_svc_user:D0se1q@bitbucket-prod.aws.baxter.com/scm/dsq/appliance.git /applianceCode
 rm -Rf /applianceCode/.git
 
-mv /applianceCode/ /appliance/
+mv /applianceCode/* /appliance/
 
 rm -rf /applianceCode
 
