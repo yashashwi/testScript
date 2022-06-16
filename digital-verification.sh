@@ -7,7 +7,8 @@
 # ------------------------------------------------------------
 # Verification and Build
 # ------------------------------------------------------------
-
+scriptDir=`dirname $0`
+cat $scriptDir/docker-compose-appliance.yml |-e "s/jboss/keycloak/615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:keycloak/" 
 if [[ "$1" == "" ]]; then
 	echo "Argument 1 should be the application version: x.y.z".
 	exit 1
@@ -74,3 +75,6 @@ cosign verify --key awskms:///arn:aws:kms:us-east-2:067278570880:key/ec459556-2f
 cosign verify --key awskms:///arn:aws:kms:us-east-2:067278570880:key/ec459556-2fb1-400a-8429-34b890d11fba 615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:api-$tag
 
 cosign verify --key awskms:///arn:aws:kms:us-east-2:067278570880:key/ec459556-2fb1-400a-8429-34b890d11fba 615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:keycloak-$keycloak
+
+
+
