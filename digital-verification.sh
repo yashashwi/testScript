@@ -25,12 +25,14 @@ chmod +x /usr/local/bin/cosign
 cosign version
 
 aws configure set default.region us-east-2
-cp -r /home/baa/.aws/ .aws/
 
 $(aws ecr get-login --region us-east-2 --no-include-email)
+aws sts get-caller-identity
+
 # decrypt the credential file, so that aws can be configured to role which can verify the images
 aws kms decrypt --ciphertext-blob fileb:///appliance/doseiq-service-account-encrypted-creds.txt --key-id bc32ba6e-aef0-49d4-82ea-5a2fa8d35f63 --output text --query Plaintext | base64 --decode > prodAccountKeyId.txt
 
+cat prodAccountKeyId.txt
 unset AWS_SESSION_TOKEN
 unset AWS_SECRET_ACCESS_KEY
 unset AWS_ACCESS_KEY_ID
@@ -56,9 +58,11 @@ docker pull 615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:ui-$tag
 
 docker pull 615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:keycloak-$keycloak
 
+aws configure set default.region us-east-2
+
 #verifying the images
-cosign verify --key awskms:///arn:aws:kms:us-east-2:067278570880:key/ec459556-2fb1-400a-8429-34b890d11fba 615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:ui-$tag | jq
+cosign verify --key awskms:///arn:aws:kms:us-east-2:067278570880:key/ec459556-2fb1-400a-8429-34b890d11fba 615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:ui-$tag
 
-cosign verify --key awskms:///arn:aws:kms:us-east-2:067278570880:key/ec459556-2fb1-400a-8429-34b890d11fba 615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:api-$tag | jq
+cosign verify --key awskms:///arn:aws:kms:us-east-2:067278570880:key/ec459556-2fb1-400a-8429-34b890d11fba 615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:api-$tag
 
-cosign verify --key awskms:///arn:aws:kms:us-east-2:067278570880:key/ec459556-2fb1-400a-8429-34b890d11fba 615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:keycloak-$keycloak | jq
+cosign verify --key awskms:///arn:aws:kms:us-east-2:067278570880:key/ec459556-2fb1-400a-8429-34b890d11fba 615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:keycloak-$keycloak
