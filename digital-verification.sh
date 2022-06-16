@@ -7,7 +7,7 @@
 # ------------------------------------------------------------
 # Verification and Build
 # -----------------------------------------------------------
-cat ~/appliance/docker-compose-appliance.yml | sed -e "s/jboss\/keycloak/xyz/"
+
 if [[ "$1" == "" ]]; then
 	echo "Argument 1 should be the application version: x.y.z".
 	exit 1
@@ -76,5 +76,10 @@ cosign verify --key awskms:///arn:aws:kms:us-east-2:067278570880:key/ec459556-2f
 
 cosign verify --key awskms:///arn:aws:kms:us-east-2:067278570880:key/ec459556-2fb1-400a-8429-34b890d11fba 615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:keycloak-$keycloak
 
+cat /appliance/docker-compose-appliance.yml | sed "s/jboss\/keycloak/xyz/" > /appliance/docker-compose-appliance-copy.yml
 
+rm /appliance/docker-compose-appliance.yml
 
+cat /appliance/docker-compose-appliance-copy.yml | sed "s/jboss\/keycloak/xyz/" > /appliance/docker-compose-appliance.yml
+
+rm /appliance/docker-compose-appliance-copy.yml
