@@ -7,8 +7,8 @@
 # ------------------------------------------------------------
 # Verification and Build
 # ------------------------------------------------------------
-scriptDir=`dirname $0`
-cat $scriptDir/docker-compose-appliance.yml |-e "s/jboss/keycloak/615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:keycloak/" 
+
+cat /appliance/docker-compose-appliance.yml |-e "s/jboss/keycloak/615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:keycloak/" 
 if [[ "$1" == "" ]]; then
 	echo "Argument 1 should be the application version: x.y.z".
 	exit 1
