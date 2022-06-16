@@ -6,9 +6,8 @@
 
 # ------------------------------------------------------------
 # Verification and Build
-# ------------------------------------------------------------
+# -----------------------------------------------------------
 
-cat /appliance/docker-compose-appliance.yml |-e "s/jboss/keycloak/615146175312.dkr.ecr.us-east-2.amazonaws.com/doseiq:keycloak/" 
 if [[ "$1" == "" ]]; then
 	echo "Argument 1 should be the application version: x.y.z".
 	exit 1
@@ -19,6 +18,7 @@ if [[ "$2" == "" ]]; then
 	exit 1
 fi
 
+cat ~/appliance/docker-compose-appliance.yml | sed -e "s/jboss\/keycloak/xyz/"
 # Installing Cosign hardcoded to 1.8 (latest at the moment)
 wget "https://github.com/sigstore/cosign/releases/download/v1.8.0/cosign-linux-amd64"
 mv cosign-linux-amd64 /usr/local/bin/cosign
