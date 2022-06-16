@@ -24,8 +24,8 @@ mv cosign-linux-amd64 /usr/local/bin/cosign
 chmod +x /usr/local/bin/cosign
 cosign version
 
-git clone https://doseiq_svc_user:D0se1q@bitbucket-prod.aws.baxter.com/scm/dsq/appliance.git /appliance
-rm -Rf /appliance/.git
+git clone https://doseiq_svc_user:D0se1q@bitbucket-prod.aws.baxter.com/scm/dsq/appliance.git /appliance/
+rm -Rf /appliance/appliance/.git
 
 aws configure set default.region us-east-2
 
