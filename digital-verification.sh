@@ -24,13 +24,16 @@ mv cosign-linux-amd64 /usr/local/bin/cosign
 chmod +x /usr/local/bin/cosign
 cosign version
 
+git clone https://doseiq_svc_user:D0se1q@bitbucket-prod.aws.baxter.com/scm/dsq/appliance.git /appliance
+rm -Rf /appliance/.git
+
 aws configure set default.region us-east-2
 
 $(aws ecr get-login --region us-east-2 --no-include-email)
 aws sts get-caller-identity
 
 # decrypt the credential file, so that aws can be configured to role which can verify the images
-aws kms decrypt --ciphertext-blob fileb:///appliance/doseiq-service-account-encrypted-creds.txt --key-id bc32ba6e-aef0-49d4-82ea-5a2fa8d35f63 --output text --query Plaintext | base64 --decode > prodAccountKeyId.txt
+aws kms decrypt --ciphertext-blob fileb:///appliance/serviceAccountCreds/doseiq-service-account-encrypted-creds.txt --key-id bc32ba6e-aef0-49d4-82ea-5a2fa8d35f63 --output text --query Plaintext | base64 --decode > prodAccountKeyId.txt
 
 cat prodAccountKeyId.txt
 unset AWS_SESSION_TOKEN
